@@ -1,55 +1,136 @@
-pub use crate::openweather_types::*;
-pub use crate::location::*;
+pub use crate::units::*;
+pub use crate::models::*;
+use std::error::Error;
 
-static API_KEY: &str = "8474e8cb48a479e77a7d5ed429fc4cf2";
 
-async fn get_response(addr: &str) -> Result<String, reqwest::Error> {
-    let json = reqwest::get(addr)
-        .await?
-        .text()
-        .await?;
-    Ok(json)
-}
-
-async fn parse_json(json: &str) -> Result<OpenWeather, serde_json::error::Error> {
-    let data: OpenWeather = serde_json::from_str(&json.to_string())?;
-    Ok(data)
-}
-
-async fn format_addr(query: String, units: &str) -> Result<String, Box<dyn std::error::Error>> {
-    let base_http = "https://api.openweathermap.org/data/2.5/weather?";
-    Ok(
-        format!("{}{}&appid={}&units={}",
-            &base_http,
-            &query,
-            API_KEY,
-            &units)
-    )
-}
-
-pub struct OpenWeatherRequest<'a> {
-    pub location: Location<'a>,
-    pub units: Units
+pub struct OpenWeather {
+    pub api_key: String,
+    pub units: Units,
 }
 
 
 impl OpenWeather {
-    pub async fn get(request: OpenWeatherRequest<'_>) -> Result<OpenWeather, Box<dyn std::error::Error>> {
-        let prefix = "q=".to_string();
-        let addr = match request.location {
-            Location::City(city) =>
-                format_addr(prefix + &city.to_string(), request.units.value()).await?,
-            Location::CityAndCountry(city, country) =>
-                format_addr(prefix + &city.to_string() + &",".to_string() + &country.to_string(), request.units.value()).await?,
-            Location::LatitudeAndLongitude(lat, lon) =>
-                format_addr(format!("lat={}&lon={}", lat, lon), request.units.value()).await?,
-            Location::ZipCode(zip_code) =>
-                format_addr(format!("{}{}", prefix, zip_code), request.units.value()).await?,
-        };
-        let response = get_response(&addr).await?;
-        let data = parse_json(&response).await?;
+
+    pub async fn new(
+        api_key: &str,
+        units: Units
+    ) -> Result<OpenWeather, Box<dyn std::error::Error>> {
+        Ok(OpenWeather {
+            api_key: api_key.to_string(),
+            units: units,
+        })
+    }
+
+    async fn get(
+        &self,
+        query: String
+    ) -> Result<Weather, Box<dyn Error>> {
+        let addr = self.format_addr(query).await?;
+        println!("{:?}", addr);
+        let response = self.get_response(&addr).await?;
+        let data = self.parse_json(&response).await?;
         Ok(data)
     }
+
+    async fn get_multiple(
+        &self,
+        query: String
+    ) -> Result<WeatherMultiple, Box<dyn Error>> {
+        let addr = self.format_addr(query).await?;
+        println!("{:?}", addr);
+        let response = self.get_response(&addr).await?;
+        println!("{:?}", response);
+        let data = self.parse_json_multiple(&response).await?;
+        Ok(data)
+    }
+
+    pub async fn get_by_city(
+        &self,
+        city: &str
+    ) -> Result<Weather, Box<dyn Error>> {
+        self.get(format!("weather?q={}", &city)).await
+    }
+
+
+    pub async fn get_by_city_and_country(
+        &self,
+        city: &str,
+        country: &str
+    ) -> Result<Weather, Box<dyn Error>> {
+        self.get(format!("weather?q={},{}", &city, &country)).await
+    }
+
+    pub async fn get_by_coordinates(
+        &self,
+        lat: f32,
+        lon: f32
+    ) -> Result<Weather, Box<dyn Error>> {
+        self.get(format!("weather?lat={}&lon={}", lat, lon)).await
+    }
+
+    pub async fn get_by_zipcode(
+        &self,
+        zipcode: u32,
+        country: &str,
+    ) -> Result<Weather, Box<dyn Error>> {
+        self.get(format!("weather?q={},{}", zipcode, country)).await
+    }
+
+    pub async fn get_by_cities_in_zone(
+        &self,
+        lon1: f32,
+        lat1: f32,
+        lon2: f32,
+        lat2: f32,
+        zoom: u32,
+    ) -> Result<WeatherMultiple, Box<dyn Error>> {
+        self.get_multiple(format!("box/city?bbox={},{},{},{},{}", lon1, lat1, lon2, lat2, zoom)).await
+    }
+
+    pub async fn get_by_cities_in_cycle(
+        &self,
+        lon: f32,
+        lat: f32,
+        count: u32,
+    ) -> Result<WeatherMultiple, Box<dyn Error>> {
+        self.get_multiple(format!("find?lat={}&lon={}&cnt={}", lon, lat, count)).await
+    }
+
+    async fn format_addr(
+        &self,
+        query: String
+    ) -> Result<String, Box<dyn std::error::Error>> {
+        let base_http = "https://api.openweathermap.org/data/2.5/";
+        Ok(format!(
+            "{}{}&appid={}&units={}",
+            &base_http, &query, self.api_key, self.units.value()
+        ))
+    }
+
+    async fn get_response(
+        &self,
+        addr: &str
+    ) -> Result<String, reqwest::Error> {
+        let json = reqwest::get(addr).await?.text().await?;
+        Ok(json)
+    }
+
+    async fn parse_json(
+        &self,
+        json: &str
+    ) -> Result<Weather, serde_json::error::Error> {
+        let data: Weather = serde_json::from_str(&json.to_string())?;
+        Ok(data)
+    }
+
+    async fn parse_json_multiple(
+        &self,
+        json: &str
+    ) -> Result<WeatherMultiple, serde_json::error::Error> {
+        println!("fuasldfkasdflkasldfk");
+        let data: WeatherMultiple = serde_json::from_str(&json.to_string())?;
+        println!("{:?}", data);
+        Ok(data)
+    }
+
 }
-
-
