@@ -6,8 +6,6 @@ edition = "2018"
 license = "MIT"
 description = "An async library for use with the openweathermap.org API"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
 tokio = { version="0.2.22",  features = ["macros", "tcp", "dns", "io-util"]}
 reqwest = "0.10.7"
