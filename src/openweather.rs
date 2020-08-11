@@ -21,17 +21,6 @@ impl OpenWeather {
         })
     }
 
-    async fn get(
-        &self,
-        query: String
-    ) -> Result<Weather, Box<dyn Error>> {
-        let addr = self.format_addr(query).await?;
-        println!("{:?}", addr);
-        let response = self.get_response(&addr).await?;
-        let data = self.parse_json(&response).await?;
-        Ok(data)
-    }
-
     async fn get_multiple(
         &self,
         query: String
@@ -96,6 +85,17 @@ impl OpenWeather {
         self.get_multiple(format!("find?lat={}&lon={}&cnt={}", lon, lat, count)).await
     }
 
+    async fn get(
+        &self,
+        query: String
+    ) -> Result<Weather, Box<dyn Error>> {
+        let addr = self.format_addr(query).await?;
+        println!("{:?}", addr);
+        let response = self.get_response(&addr).await?;
+        let data = self.parse_json(&response).await?;
+        Ok(data)
+    }
+
     async fn format_addr(
         &self,
         query: String
@@ -127,7 +127,6 @@ impl OpenWeather {
         &self,
         json: &str
     ) -> Result<WeatherMultiple, serde_json::error::Error> {
-        println!("fuasldfkasdflkasldfk");
         let data: WeatherMultiple = serde_json::from_str(&json.to_string())?;
         println!("{:?}", data);
         Ok(data)
