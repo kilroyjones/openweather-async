@@ -5,7 +5,9 @@ This rust library is used to access the **Current Weather** portion of the [Open
 
 ## setup
 
-To use this library you will need to first sign up at [OpenWeather API Sign up](https://openweathermap.org/home/sign_up) and get an API key. If interested, the API documentation is [here](https://openweathermap.org/current) with examples of the json-formatted response.
+To use this library you will need to first sign up at [OpenWeather API Sign up](https://openweathermap.org/home/sign_up) and get an API key. If interested, the API documentation is [here](https://openweathermap.org/current) with examples of the json-formatted response. 
+
+To follow the example below, you should store the API key in the **.env** file as **OPENWEATHER_API_KEY=YOUR_API_KEY**.  The **.env** file should be place in the root folder of your project. 
 
 ```
 ├── Cargo.toml
@@ -15,7 +17,7 @@ To use this library you will need to first sign up at [OpenWeather API Sign up](
 
 ```
 
-You'll need to add these to add the following dependencies to your **Cargo.toml**.
+Next, you'll need to add the following dependencies to your **Cargo.toml**.
 
 ```
 openweather-async = 0.0.1
@@ -25,7 +27,10 @@ dotenv = "0.15.0"
 
 ## example program
 
-The program below will retrieve the full weather report represented as the **OpenWeather** struct in which other structs are nest. This can be seen found in the **models.rs** file. 
+The program below will retrieve the full weather report represented as the **OpenWeather** type. This type, and the other types that make it up, can be seen found in the **models.rs** file. If you're looking for a particular field it will help to look there or in the documentation. 
+
+While you can directly pass the API key into **new**, it's recommended that you follow the example below and use the **dotenv** crate as shown in the example and mentioned above. 
+
 ```
 use tokio;
 use std::env;
@@ -46,7 +51,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 ```
 
-You can also access other functions as shown below. Keep in mind that each of these calls will be a new request to the API. If you get by the city name you can find the country code within the returned **OpenWeather** struct.
+There are six different ways you can access the API, with the last two  can also access other functions as shown below. Keep in mind that each of these calls will be a new request to the API. If you get by the city name you can find the country code within the returned **OpenWeather** struct.
 
 ```
 weather.get_by_city_and_country("Tokyo", "Japan").await?;
