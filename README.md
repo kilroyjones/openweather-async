@@ -20,7 +20,7 @@ To follow the example below, you should store the API key in the **.env** file a
 Next, you'll need to add the following dependencies to your **Cargo.toml**.
 
 ```
-openweather-async = 0.0.1
+openweather-async = "0.0.1"
 tokio = { version="0.2.22", features = ["macros", "tcp", "dns", "io-util"]}
 dotenv = "0.15.0"
 ```
