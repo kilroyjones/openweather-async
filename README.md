@@ -44,8 +44,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let weather: OpenWeather = OpenWeather::new(&token, Units::Metric).await?;
     let report = weather.get_by_city("Tokyo").await?;
     println!("{:?}", report);
-    println!("{:?}", report.main.weather);
-    println!("{:?}", report.weather.description);
+    println!("{:?}", report.main);
     println!("{:?}", report.wind.speed);
    Ok(())
 }
