@@ -16,7 +16,7 @@ mod test {
     async fn get_by_city() -> Result<(), Box<dyn std::error::Error>> {
         dotenv().expect("No env file found");
         let token = env::var("OPENWEATHER_API_KEY").unwrap();
-        let weather: OpenWeather = OpenWeather::new(&token, Units::Metric).await?;
+        let weather: OpenWeather = OpenWeather::new(&token, Units::Metric);
         let _temp = weather.get_by_city("Tokyo").await?;
         Ok(())
     }
@@ -25,7 +25,7 @@ mod test {
     async fn get_by_city_and_country() -> Result<(), Box<dyn std::error::Error>> {
         dotenv().expect("No env file found");
         let token = env::var("OPENWEATHER_API_KEY").unwrap();
-        let weather: OpenWeather = OpenWeather::new(&token, Units::Metric).await?;
+        let weather: OpenWeather = OpenWeather::new(&token, Units::Metric);
         let _temp = weather.get_by_city_and_country("Tokyo", "Japan").await?;
         Ok(())
     }
@@ -34,7 +34,7 @@ mod test {
     async fn get_by_coordinates() -> Result<(), Box<dyn std::error::Error>> {
         dotenv().expect("No env file found");
         let token = env::var("OPENWEATHER_API_KEY").unwrap();
-        let weather: OpenWeather = OpenWeather::new(&token, Units::Metric).await?;
+        let weather: OpenWeather = OpenWeather::new(&token, Units::Metric);
         let _temp = weather.get_by_coordinates(56.0, 12.0).await?;
         Ok(())
     }
@@ -43,7 +43,7 @@ mod test {
     async fn get_by_zipcode() -> Result<(), Box<dyn std::error::Error>> {
         dotenv().expect("No env file found");
         let token = env::var("OPENWEATHER_API_KEY").unwrap();
-        let weather: OpenWeather = OpenWeather::new(&token, Units::Metric).await?;
+        let weather: OpenWeather = OpenWeather::new(&token, Units::Metric);
         let _temp = weather.get_by_zipcode(80918, "US").await?;
         Ok(())
     }
@@ -52,7 +52,7 @@ mod test {
     async fn get_by_cities_in_zone() -> Result<(), Box<dyn std::error::Error>> {
         dotenv().expect("No env file found");
         let token = env::var("OPENWEATHER_API_KEY").unwrap();
-        let weather: OpenWeather = OpenWeather::new(&token, Units::Metric).await?;
+        let weather: OpenWeather = OpenWeather::new(&token, Units::Metric);
         weather.get_by_cities_in_zone(12.0, 32.0, 15.0, 37.0, 10).await?;
         Ok(())
     }
@@ -61,7 +61,7 @@ mod test {
     async fn get_by_cities_in_cycle() -> Result<(), Box<dyn std::error::Error>> {
         dotenv().expect("No env file found");
         let token = env::var("OPENWEATHER_API_KEY").unwrap();
-        let weather: OpenWeather = OpenWeather::new(&token, Units::Metric).await?;
+        let weather: OpenWeather = OpenWeather::new(&token, Units::Metric);
         weather.get_by_cities_in_cycle(12.0, 32.0, 3).await?;
         Ok(())
     }

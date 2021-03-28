@@ -11,15 +11,15 @@ pub struct OpenWeather {
 
 
 impl OpenWeather {
-    pub async fn new(
+    pub fn new(
         api_key: &str,
         units: Units
-    ) -> Result<OpenWeather> {
-        Ok(OpenWeather {
+    ) -> OpenWeather {
+        OpenWeather {
             api_key: api_key.to_string(),
             units: units,
             client: Client::new(),
-        })
+        }
     }
 
     pub async fn get_by_city(
