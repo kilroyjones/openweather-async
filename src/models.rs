@@ -41,6 +41,22 @@ pub struct Wind {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
+pub struct Rain {
+    #[serde(rename = "1h")]
+    pub _1h: Option<f32>,
+    #[serde(rename = "3h")]
+    pub _3h: Option<f32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
+pub struct Snow {
+    #[serde(rename = "1h")]
+    pub _1h: Option<f32>,
+    #[serde(rename = "3h")]
+    pub _3h: Option<f32>,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Clouds {
     pub all: Option<u32>,
     pub today: Option<u32>,
@@ -64,8 +80,8 @@ pub struct Weather {
     pub main: Main,
     pub visibility: Option<u32>,
     pub wind: Wind,
-    pub rain: Option<String>,
-    pub snow: Option<String>,
+    pub rain: Option<Rain>,
+    pub snow: Option<Snow>,
     pub clouds: Clouds,
     pub dt: u32,
     pub sys: Option<Sys>,
