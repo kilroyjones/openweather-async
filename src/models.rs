@@ -3,7 +3,7 @@ use serde::de::{self};
 use std::fmt;
 
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 pub struct Coord {
     #[serde(rename = "Lon")]
     pub lon: Option<f32>,
@@ -11,7 +11,7 @@ pub struct Coord {
     pub lat: Option<f32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 #[serde(rename(deserialize = "Weather", serialize = "Weather"))]
 pub struct WeatherData {
     pub id: u32,
@@ -20,7 +20,7 @@ pub struct WeatherData {
     pub icon: String,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 pub struct Main {
     pub temp: f32,
     pub feels_like: f32,
@@ -33,14 +33,14 @@ pub struct Main {
     pub temp_kf: Option<f32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 pub struct Wind {
     pub speed: f32,
     pub deg: f32,
     pub gust: Option<f32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 pub struct Rain {
     #[serde(rename = "1h")]
     pub _1h: Option<f32>,
@@ -48,7 +48,7 @@ pub struct Rain {
     pub _3h: Option<f32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 pub struct Snow {
     #[serde(rename = "1h")]
     pub _1h: Option<f32>,
@@ -56,13 +56,13 @@ pub struct Snow {
     pub _3h: Option<f32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 pub struct Clouds {
     pub all: Option<u32>,
     pub today: Option<u32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 pub struct Sys {
     #[serde(rename = "type")]
     pub message_type: Option<u32>,
@@ -72,7 +72,7 @@ pub struct Sys {
     pub sunset: Option<u32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 pub struct Weather {
     pub coord: Coord,
     pub weather: Option<Vec<WeatherData>>,
@@ -91,7 +91,7 @@ pub struct Weather {
     pub cod: Option<u32>,
 }
 
-#[derive(Serialize, Deserialize, Debug)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Clone)]
 pub struct WeatherMultiple {
     #[serde(deserialize_with = "derserialize_u32_or_string")]
     cod: u32,
