@@ -85,15 +85,6 @@ impl OpenWeather {
 
     async fn query<T: DeserializeOwned>(&self, query: &str) -> Result<T> {
         let addr = self.format_addr(query);
-        let res2 = self.client
-            .get(addr.clone())
-            .send()
-            .await?;
-        let txt = res2.text().await?;
-        println!("T: {}", txt);
-
-
-
         let res = self.client
             .get(addr)
             .send()
