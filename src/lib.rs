@@ -17,7 +17,7 @@ mod test {
         dotenv().expect("No env file found");
         let token = env::var("OPENWEATHER_API_KEY").unwrap();
         let weather: OpenWeather = OpenWeather::new(&token, Units::Metric).await?;
-        let temp = weather.get_by_city("Tokyo").await?;
+        let _temp = weather.get_by_city("Tokyo").await?;
         Ok(())
     }
 
@@ -26,7 +26,7 @@ mod test {
         dotenv().expect("No env file found");
         let token = env::var("OPENWEATHER_API_KEY").unwrap();
         let weather: OpenWeather = OpenWeather::new(&token, Units::Metric).await?;
-        let temp = weather.get_by_city_and_country("Tokyo", "Japan").await?;
+        let _temp = weather.get_by_city_and_country("Tokyo", "Japan").await?;
         Ok(())
     }
 
@@ -35,7 +35,7 @@ mod test {
         dotenv().expect("No env file found");
         let token = env::var("OPENWEATHER_API_KEY").unwrap();
         let weather: OpenWeather = OpenWeather::new(&token, Units::Metric).await?;
-        let temp = weather.get_by_coordinates(56.0, 12.0).await?;
+        let _temp = weather.get_by_coordinates(56.0, 12.0).await?;
         Ok(())
     }
 
@@ -44,7 +44,7 @@ mod test {
         dotenv().expect("No env file found");
         let token = env::var("OPENWEATHER_API_KEY").unwrap();
         let weather: OpenWeather = OpenWeather::new(&token, Units::Metric).await?;
-        let temp = weather.get_by_zipcode(80918, "US").await?;
+        let _temp = weather.get_by_zipcode(80918, "US").await?;
         Ok(())
     }
 

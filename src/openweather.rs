@@ -26,9 +26,7 @@ impl OpenWeather {
         query: String
     ) -> Result<WeatherMultiple, Box<dyn Error>> {
         let addr = self.format_addr(query).await?;
-        println!("{:?}", addr);
         let response = self.get_response(&addr).await?;
-        println!("{:?}", response);
         let data = self.parse_json_multiple(&response).await?;
         Ok(data)
     }
@@ -90,7 +88,6 @@ impl OpenWeather {
         query: String
     ) -> Result<Weather, Box<dyn Error>> {
         let addr = self.format_addr(query).await?;
-        println!("{:?}", addr);
         let response = self.get_response(&addr).await?;
         let data = self.parse_json(&response).await?;
         Ok(data)
@@ -128,7 +125,6 @@ impl OpenWeather {
         json: &str
     ) -> Result<WeatherMultiple, serde_json::error::Error> {
         let data: WeatherMultiple = serde_json::from_str(&json.to_string())?;
-        println!("{:?}", data);
         Ok(data)
     }
 
